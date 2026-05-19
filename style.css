@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@400;600;700;800&display=swap');
 
 * {
     margin: 0;
@@ -8,9 +8,8 @@
 
 :root {
     /* Configurações básicas de layout */
-    --radius: 6px;
-    --control-h: 50px;
-    --cell-size: clamp(70px, 15vw, 130px);
+    --radius: 8px;
+    --control-h: 48px;
 
     /* Tipografia principal */
     --font-ui: 'Inter', sans-serif;
@@ -127,24 +126,24 @@ body {
     width: 100%;
     max-width: 1050px;
     margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 30px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.01);
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 40px;
+    padding: 30px;
+    background: rgba(18, 11, 22, 0.7);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
 }
 
 .hidden {
     display: none !important;
 }
 
-.screen {
+.screen-auth {
     width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center; 
@@ -154,6 +153,51 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos para Páginas de Autenticação */
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.6s ease-out;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h1 {
+    font-family: var(--font-title);
+    font-size: 1.8rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.auth-footer {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.auth-link {
+    color: var(--color-wine-2);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.auth-link:hover {
+    color: #ff4d61;
+    text-decoration: underline;
 }
 
 .placar {
@@ -349,8 +393,7 @@ body {
 
 .btn-principal-game:hover {
     transform: translateY(-3px) scale(1.02);
-    background: linear-gradient(135deg, var(--color-wine-2), #ff4d61) !important;
-    box-shadow: 0 8px 25px rgba(211, 57, 76, 0.5);
+    background: linear-gradient(135deg, var(--color-wine-2), #ff4d61);
     filter: brightness(1.1);
 }
 
@@ -358,57 +401,24 @@ body {
     transform: translateY(1px);
 }
 
-.configuracoes {
-    flex: 0 0 300px;
-}
-
-.formulario {
-
-    width: 100%;
-    max-width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
 .formulario-compacto {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 12px;
 }
 
-.formulario h1 {
-
+.auth-header h1 {
     margin-bottom: 10px;
-
-    text-align: center;
-
     font-size: 2rem;
-
     color: #ffffff;
-
     font-family: var(--font-title);
-
     text-transform: uppercase;
-
-    letter-spacing: 2px;
-
-    text-shadow:
-        0 0 8px rgba(211,57,76,0.35);
+    letter-spacing: 3px;
 }
 
-
-
-select {
-    height: var(--control-h);
-    padding: 0 8px;
-    background: var(--color-input-bg);
-    color: var(--color-text);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius);
-    font-size: 0.85rem;
-    outline: none;
+.error-message {
+    color: #ff4757; font-size: 0.8rem; margin: 10px 0; text-align: center; font-weight: bold;
 }
 
 .formulario input {
@@ -495,29 +505,31 @@ select {
 }
 
 .tabuleiro {
-    flex: 2;
     display: grid;
-    justify-content: center;
-    align-content: center;
-    padding: 15px;
-    background: rgba(0,0,0,0.2);
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.05);
-    grid-template-columns: repeat(3, var(--cell-size));
-    grid-template-rows: repeat(3, var(--cell-size));
-    gap: 8px;
-    width: fit-content;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
     margin: 0 auto;
-    min-height: 400px; /* Garante visibilidade mínima */
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .casa {
+    background: var(--color-cell-bg);
+    border: 1px solid var(--color-cell-border);
+    border-radius: var(--radius);
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: clamp(2rem, 8vw, 4rem);
+    font-family: var(--font-title);
+    color: var(--color-text);
     cursor: pointer;
-    background: #221828;
-    color: #e7dede;
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: var(--radius);
     font-size: clamp(2rem, 10vw, 3.5rem);
@@ -545,14 +557,17 @@ select {
 
 @media (max-width: 768px) {
     .container {
-        flex-direction: column;
-        justify-content: flex-start;
+        grid-template-columns: 1fr;
         width: 100%;
-        max-width: 450px;
-        gap: 15px;
+        max-width: 100%;
+        gap: 20px;
         padding: 15px;
-        margin: 10px 0;
     }
+
+    .tabuleiro {
+        max-width: 100%;
+    }
+
     .configuracoes {
         width: 100%;
     }
@@ -682,4 +697,38 @@ select {
 
 .btn-perigo:hover {
     background: rgba(255, 71, 87, 0.1);
+}
+
+/* Estilos para Visualizar Senha */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper .input-moderno {
+    padding-right: 45px !important;
+    width: 100%;
+}
+
+.btn-toggle-eye {
+    position: absolute;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: var(--color-text-soft);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: color 0.2s, opacity 0.2s;
+    opacity: 0.6;
+    z-index: 5;
+}
+
+.btn-toggle-eye:hover {
+    color: var(--color-wine-2);
+    opacity: 1;
 }

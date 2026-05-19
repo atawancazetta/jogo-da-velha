@@ -1,15 +1,19 @@
 // Lógica central da campanha contra IA
+import { auth, db } from './firebase.js';
+import { 
+    signOut, 
+    onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const boardCells = document.querySelectorAll('.casa');
 const statusDisplay = document.getElementById('console');
 const playerNameInput = document.getElementById('player1');
 
-const telaLogin = document.getElementById('tela-login');
 const telaJogo = document.getElementById('tela-jogo');
 
-const btnLogar = document.getElementById('btnLogar');
 const btnStartGame = document.getElementById('btnIrParaJogo');
-const btnVoltarMenu = document.getElementById('btnVoltarMenu');
+const btnLogout = document.getElementById('btnLogout');
 const selectSimbolo = document.getElementById('select-simbolo');
 
 const modalFase = document.getElementById('modal-fase');
@@ -18,6 +22,21 @@ const btnResetarCarreira = document.getElementById('btnResetarCarreira');
 const modalTitle = document.getElementById('modal-titulo');
 const modalMessage = document.getElementById('modal-mensagem');
 const modalAttempts = document.getElementById('modal-tentativas');
+
+let gameInstance = null;
+
+// --- AUTH GUARD (SEGURANÇA DE ROTA) ---
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        window.location.replace('index.html'); // Replace impede o usuário de voltar com o botão "Voltar"
+    } else {
+        console.log("Acesso autorizado para:", user.email);
+        if (!gameInstance) gameInstance = new JogoDaVelha();
+        
+        await gameInstance.carregarProgressoCloud(user);
+        document.body.style.opacity = '1'; // Revela a página após carregar dados
+    }
+});
 
 class JogoDaVelha {
     constructor() {
@@ -42,8 +61,7 @@ class JogoDaVelha {
         this.vitoriasIA = 0;
         this.tentativas = 3;
 
-        this.carregarProgresso();
-        this.iniciarEventos()
+        this.iniciarEventos(); // carregarProgresso agora é disparado pelo Auth
     }
 
     /* Listeners de clique e botões do sistema */
@@ -54,17 +72,52 @@ class JogoDaVelha {
             })
         })
 
-        btnLogar.addEventListener('click', () => this.validarLogin());
         btnStartGame.addEventListener('click', () => this.iniciarPartida());
-        btnVoltarMenu.addEventListener('click', () => location.reload());
+        btnLogout.addEventListener('click', () => this.fazerLogout());
         btnAcaoModal.addEventListener('click', () => this.processarAcaoModal());
         btnResetarCarreira.addEventListener('click', () => this.reiniciarCarreiraDoZero());
     }
 
-    mudarTela(telaAlvo) {
-        [telaLogin, telaJogo].forEach(t => t.classList.add('hidden'));
-        telaAlvo.classList.remove('hidden');
-        if(telaAlvo === telaJogo) telaAlvo.style.display = 'flex';
+    async fazerLogout() {
+        try {
+            localStorage.removeItem('jogodavelha_progresso'); // Limpeza opcional por segurança
+            await signOut(auth);
+        } catch (error) {
+            console.error("Erro ao deslogar:", error);
+        }
+    }
+
+    /* Recupera os dados salvos do Firestore (Sincronização Cloud) */
+    async carregarProgressoCloud(user) {
+        try {
+            const docRef = doc(db, "usuarios", user.uid);
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                const dados = docSnap.data();
+                this.nivelCarreira = dados.nivel || 0;
+                this.vitoriasIA = dados.vitorias || 0;
+                this.tentativas = dados.tentativas !== undefined ? dados.tentativas : 3;
+            } else {
+                // AUTO-CRIAÇÃO: Caso o documento não exista, cria com valores padrão
+                console.log("Criando documento de usuário faltante...");
+                const novoDoc = {
+                    email: user.email,
+                    nivel: 0,
+                    vitorias: 0,
+                    tentativas: 3,
+                    createdAt: serverTimestamp()
+                };
+                await setDoc(docRef, novoDoc);
+                this.nivelCarreira = 0;
+                this.vitoriasIA = 0;
+                this.tentativas = 3;
+                this.pontos = 0;
+            }
+            this.atualizarInterfaceCarreira();
+        } catch (error) {
+            console.error("Erro ao carregar do Firestore:", error);
+        }
     }
 
     /* Recupera os dados salvos do jogador */
@@ -76,29 +129,25 @@ class JogoDaVelha {
             this.vitoriasIA = dados.vitorias || 0;
             this.tentativas = dados.tentativas !== undefined ? dados.tentativas : 3;
         }
-        this.atualizarInterfaceCarreira();
     }
 
-    /* Grava o progresso atual no localStorage */
-    salvarProgresso() {
-        const dados = {
-            nivel: this.nivelCarreira,
-            vitorias: this.vitoriasIA,
-            tentativas: this.tentativas
-        };
-        localStorage.setItem('jogodavelha_progresso', JSON.stringify(dados));
-    }
-
-    /* Verifica se os dados de acesso são válidos */
-    validarLogin() {
-        const user = document.getElementById('login-user').value;
-        const pass = document.getElementById('login-pass').value;
-        
-        if (user.length > 3 && pass.length > 3) {
-            this.jogador1 = user;
-            this.mudarTela(telaJogo);
-        } else {
-            document.getElementById('console-login').textContent = "Usuário/Senha muito curtos.";
+    /* Grava o progresso atual no localStorage e Firestore */
+    async salvarProgresso() {
+        if (auth.currentUser) {
+            try {
+                const docRef = doc(db, "usuarios", auth.currentUser.uid);
+                const dados = {
+                    nivel: this.nivelCarreira,
+                    vitorias: this.vitoriasIA,
+                    tentativas: this.tentativas,
+                    pontos: (this.vitoriasIA * 10)
+                };
+                
+                localStorage.setItem('jogodavelha_progresso', JSON.stringify(dados));
+                await updateDoc(docRef, dados);
+            } catch (error) {
+                console.error("Erro ao salvar progresso no Firestore:", error);
+            }
         }
     }
 
@@ -118,8 +167,6 @@ class JogoDaVelha {
         
         this.turno = 'X';
         this.jogoAtivo = true;
-        this.mudarTela(telaJogo);
-        this.mostrarTurnoAtual();
 
         if (this.simboloHumano === 'O') {
             this.fazerJogadaIA();
@@ -422,6 +469,5 @@ class JogoDaVelha {
     }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    new JogoDaVelha();
-});
+// Removido o instanciamento via DOMContentLoaded para evitar conflito com onAuthStateChanged
+// A instância agora é criada dentro do listener de autenticação

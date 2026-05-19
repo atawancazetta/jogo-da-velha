@@ -9,102 +9,31 @@
 </head>
 <body>
     <div id="app">
-        <section id="tela-login" class="screen">
-            <div class="formulario">
-                <h1>Login</h1>
-                <input type="text" id="login-user" placeholder="Usuário">
-                <input type="password" id="login-pass" placeholder="Senha">
-                <button id="btnLogar">Entrar</button>
-                <div class="painel"><div id="console-login">Bem-vindo!</div></div>
-            </div>
-        </section>
-
-        <section id="tela-jogo" class="screen hidden">
-            <main class="container">
-                <section class="configuracoes">
-                    <div class="formulario-compacto">
-                         <div class="placar">
-                            <div class="placar-item">
-                                <span id="label-p1">Jogador 1</span>
-                                <strong id="score-p1">0</strong>
-                            </div>
-                            <div class="placar-item">
-                                <span>Empates</span>
-                                <strong id="score-empate">0</strong>
-                            </div>
-                            <div class="placar-item">
-                                <span id="label-p2">IA</span>
-                                <strong id="score-p2">0</strong>
-                            </div>
-                        </div>
-
-                        <div class="secao-inicio-partida">
-                            <div class="grupo-opcao">
-                                <label>Seu Nome</label>
-                                <input type="text" id="player1" class="input-moderno" placeholder="SEU NICKNAME">
-                            </div>
-                            <div class="grupo-opcao">
-                                <label>Símbolo</label>
-                                <select id="select-simbolo" class="select-moderno">
-                                    <option value="X">X (VOCÊ COMEÇA)</option>
-                                    <option value="O">O (IA COMEÇA)</option>
-                                </select>
-                            </div>
-                            <button id="btnIrParaJogo" class="btn-principal-game">INICIAR PARTIDA</button>
-                        </div>
-
-                        <div id="info-carreira" class="carreira-container">
-                            <div class="niveis-badge">
-                                <span id="badge-facil" class="badge">F</span>
-                                <span id="badge-medio" class="badge bloqueado">M</span>
-                                <span id="badge-dificil" class="badge bloqueado">D</span>
-                            </div>
-                            <div id="vidas-indicator" class="vidas-container"></div>
-                            <div id="stats-carreira" class="stats-carreira">Vitórias IA: 0</div>
-                        </div>
-
-                        <div class="painel">
-                            <div id="console">Configure e inicie!</div>
-                        </div>
-                        <button id="btnVoltarMenu" class="btn-sair">Sair do Jogo</button>
+        <section class="screen-auth">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>Login</h1>
+                    <p style="color: var(--color-text-soft); font-size: 0.8rem;">Bem-vindo de volta.</p>
+                </div>
+                
+                <form id="login-form" class="formulario-compacto">
+                    <input type="email" id="email" class="input-moderno" placeholder="E-mail" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" class="input-moderno" placeholder="Senha" required>
+                        <button type="button" class="btn-toggle-eye" title="Mostrar/Ocultar Senha">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
                     </div>
-                </section>
+                    <div id="login-error" class="error-message"></div>
+                    <button type="submit" class="btn-principal-game">Entrar</button>
+                </form>
 
-                <section class="tabuleiro">
-                    <div class="casa" data-index="0"></div>
-                    <div class="casa" data-index="1"></div>
-                    <div class="casa" data-index="2"></div>
-                    <div class="casa" data-index="3"></div>
-                    <div class="casa" data-index="4"></div>
-                    <div class="casa" data-index="5"></div>
-                    <div class="casa" data-index="6"></div>
-                    <div class="casa" data-index="7"></div>
-                    <div class="casa" data-index="8"></div>
-                </section>
-            </main>
+                <div class="auth-footer">
+                    <a href="cadastro.html" class="auth-link">Não tem conta? Cadastrar-se</a>
+                </div>
+            </div>
         </section>
     </div>
-
-    <div id="modal-fase" class="modal-overlay hidden">
-        <div class="modal-content">
-            <div id="modal-icon">🏆</div>
-            <h2 id="modal-titulo">Fase Concluída!</h2>
-            <p id="modal-mensagem"></p>
-            <p id="modal-tentativas" class="modal-tentativas-texto"></p>
-            <div id="modal-progresso-container" class="modal-progresso">
-                <span id="fase-anterior">Fase 1</span>
-                <span class="seta">→</span>
-                <span id="fase-proxima">Fase 2</span>
-            </div>
-            <div class="modal-footer">
-                <button id="btnAcaoModal">Próxima Fase</button>
-                <button id="btnResetarCarreira" class="btn-perigo hidden">Reiniciar do Início</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="game.js"></script>
-
+    <script type="module" src="login.js"></script>
 </body>
-
 </html>
