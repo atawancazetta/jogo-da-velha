@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Jogo da Velha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Nova Conta</h1>
+                <p style="color: var(--color-text-soft); font-size: 0.8rem;">Junte-se à resistência.</p>
+            </div>
+            
+            <form id="register-form" class="formulario-compacto">
+                <div class="grupo-opcao">
+                    <label>E-mail</label>
+                    <input type="email" id="email" class="input-moderno" placeholder="seu@email.com" required>
+                </div>
+                <div class="grupo-opcao">
+                    <label>Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" class="input-moderno" placeholder="Mínimo 6 caracteres" required>
+                        <button type="button" class="btn-toggle-eye">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="grupo-opcao">
+                    <label>Confirmar Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirm-password" class="input-moderno" placeholder="Repita a senha" required>
+                        <button type="button" class="btn-toggle-eye">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="register-error" style="color: #ff4757; font-size: 0.8rem; margin-bottom: 10px; text-align: center;"></div>
+                
+                <button type="submit" class="btn-principal-game">Criar Conta</button>
+            </form>
+
+            <div class="auth-footer">
+                <a href="login.html" class="auth-link">Já possui conta? Entrar</a>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="cadastro.js"></script>
+</body>
+</html>

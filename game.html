@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena - Jogo da Velha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="opacity: 0; transition: opacity 0.3s ease;"> <!-- Proteção visual inicial -->
+    <div id="app" class="auth-required">
+        <section id="tela-jogo" class="screen">
+            <main class="container">
+                <section class="configuracoes">
+                    <div class="formulario-compacto">
+                         <div class="placar">
+                            <div class="placar-item">
+                                <span id="label-p1">Jogador</span>
+                                <strong id="score-p1">0</strong>
+                            </div>
+                            <div class="placar-item">
+                                <span>Empates</span>
+                                <strong id="score-empate">0</strong>
+                            </div>
+                            <div class="placar-item">
+                                <span id="label-p2">IA</span>
+                                <strong id="score-p2">0</strong>
+                            </div>
+                        </div>
+
+                        <div class="secao-inicio-partida">
+                            <div class="grupo-opcao">
+                                <label>Seu Nome</label>
+                                <input type="text" id="player1" class="input-moderno" placeholder="NICKNAME">
+                            </div>
+                            <div class="grupo-opcao">
+                                <label>Símbolo</label>
+                                <select id="select-simbolo" class="input-moderno">
+                                    <option value="X">X (VOCÊ COMEÇA)</option>
+                                    <option value="O">O (IA COMEÇA)</option>
+                                </select>
+                            </div>
+                            <button id="btnIrParaJogo" class="btn-principal-game">INICIAR</button>
+                        </div>
+
+                        <div id="info-carreira" class="carreira-container">
+                            <div class="niveis-badge">
+                                <span id="badge-facil" class="badge">F</span>
+                                <span id="badge-medio" class="badge bloqueado">M</span>
+                                <span id="badge-dificil" class="badge bloqueado">D</span>
+                            </div>
+                            <div id="vidas-indicator" class="vidas-container"></div>
+                            <div id="stats-carreira" class="stats-carreira">Fase 1</div>
+                        </div>
+
+                        <div class="painel">
+                            <div id="console">Aguardando início...</div>
+                        </div>
+                        <button id="btnLogout" class="btn-sair">Sair da Conta</button>
+                    </div>
+                </section>
+
+                <section class="tabuleiro">
+                    <div class="casa" data-index="0"></div>
+                    <div class="casa" data-index="1"></div>
+                    <div class="casa" data-index="2"></div>
+                    <div class="casa" data-index="3"></div>
+                    <div class="casa" data-index="4"></div>
+                    <div class="casa" data-index="5"></div>
+                    <div class="casa" data-index="6"></div>
+                    <div class="casa" data-index="7"></div>
+                    <div class="casa" data-index="8"></div>
+                </section>
+            </main>
+        </section>
+    </div>
+
+    <div id="modal-fase" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div id="modal-icon">🏆</div>
+            <h2 id="modal-titulo">Fase Concluída!</h2>
+            <p id="modal-mensagem"></p>
+            <p id="modal-tentativas" class="modal-tentativas-texto"></p>
+            <div id="modal-progresso-container" class="modal-progresso">
+                <span id="fase-anterior">Fase 1</span>
+                <span class="seta">→</span>
+                <span id="fase-proxima">Fase 2</span>
+            </div>
+            <div class="modal-footer">
+                <button id="btnAcaoModal">Próxima Fase</button>
+                <button id="btnResetarCarreira" class="btn-perigo hidden">Reiniciar do Início</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="game.js"></script>
+</body>
+</html>
