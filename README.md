@@ -10,7 +10,7 @@ O projeto está disponível online para ser testado agora mesmo:
 ## 📸 Preview
 
 <div align="center">
-  <img src="/.assets/preview.jpeg" alt="Interface do Jogo da Velha" width="800px">
+  <img src="./assets/preview.jpeg" alt="Interface do Jogo da Velha" width="800px">
   <p><em>Interface escura com temática "Wine" e efeitos de neon.</em></p>
 </div>
 
