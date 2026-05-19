@@ -1,6 +1,6 @@
 # 🎮 Jogo da Velha - Campaign Edition
 
-Um Jogo da Velha moderno é desafiador, com interface futurista e um modo campanha contra inteligência artificial.
+Um Jogo da Velha moderno e desafiador, com interface futurista e um modo campanha contra inteligência artificial.
 
 ## 🚀 Visualizar Projeto
 
