@@ -81,7 +81,7 @@
 body {
     margin: 0;
     padding: 0;
-    height: auto;
+    height: 100vh;
     min-height: 100dvh; /* altura dinâmica para navegadores mobile */
     padding: 20px 10px;
     display: flex;
@@ -130,27 +130,16 @@ body {
 .container {
     width: 100%;
     max-width: 1050px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-    background: rgba(18, 11, 22, 0.6);
-    border-radius: var(--radius-lg);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 40px;
+    padding: 30px;
+    background: rgba(18, 11, 22, 0.7);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-}
-
-/* Desktop layout adjustment */
-@media (min-width: 992px) {
-    .container {
-        display: grid;
-        grid-template-columns: 340px 1fr;
-        gap: 40px;
-        padding: 40px;
-    }
 }
 
 .hidden {
@@ -191,7 +180,7 @@ body {
 
 .auth-header h1 {
     font-family: var(--font-title);
-    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-size: 1.8rem;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -221,7 +210,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     margin-bottom: 12px;
-    padding: 15px 10px;
+    padding: 12px;
     background: rgba(0,0,0,0.3);
     border-radius: var(--radius);
     border: 1px solid rgba(255,255,255,0.08);
@@ -249,13 +238,12 @@ body {
 
 .carreira-container {
     background: rgba(0, 0, 0, 0.2);
-    padding: 12px;
+    padding: 8px;
     border-radius: var(--radius);
     border: 1px dashed rgba(255,255,255,0.08);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
@@ -318,21 +306,8 @@ body {
 }
 
 .stats-carreira {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--color-text-soft);
-    width: 100%;
-    text-align: center;
-    padding-top: 5px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-@media (min-width: 480px) {
-    .stats-carreira {
-        width: auto;
-        text-align: left;
-        padding-top: 0;
-        border-top: none;
-    }
 }
 
 .grupo-opcao {
@@ -358,10 +333,10 @@ body {
 
 .secao-inicio-partida {
     background: rgba(255, 255, 255, 0.03);
-    padding: 15px;
+    padding: 20px;
     border-radius: var(--radius);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -375,6 +350,7 @@ body {
     padding: 0 15px !important;
     text-transform: uppercase;
     letter-spacing: 1px;
+    border-radius: var(--radius) !important;
     outline: none !important;
 }
 
@@ -525,8 +501,7 @@ body {
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
     width: 100%;
-    max-width: 480px;
-    min-height: 300px;
+    max-width: 500px;
     aspect-ratio: 1 / 1;
     margin: 0 auto;
     padding: 20px;
@@ -571,18 +546,21 @@ body {
 }
 
 @media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 15px;
+    }
+
     .tabuleiro {
-        max-width: 92vw;
-        padding: 12px;
+        max-width: 100%;
+        padding: 15px;
         gap: 8px;
     }
     
-    .secao-inicio-partida {
-        padding: 12px;
-    }
-
-    .casa {
-        border-radius: 6px;
+    .carreira-container {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
