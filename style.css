@@ -1,3 +1,6 @@
+/* ==========================================================================
+   VARIÁVEIS E RESET
+   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@400;600;700;800&display=swap');
 
 * {
@@ -7,7 +10,6 @@
 }
 
 :root {
-    /* Configurações básicas de layout */
     --radius: 8px;
     --radius-lg: 16px;
     --control-h: 52px;
@@ -49,11 +51,9 @@
     --color-glow-center:
         rgba(211, 57, 76, 0.08);
 
-    /* Estilos de inputs e campos de texto */
     --color-input-bg: #1b1521;
     --color-input-border:
         rgba(255, 255, 255, 0.08);
-
     --color-input-text:
         var(--color-text);
 
@@ -213,39 +213,15 @@ body {
     padding: 12px;
     background: rgba(0,0,0,0.3);
     border-radius: var(--radius);
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.05);
 }
-
-.placar-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.placar-item span {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    color: var(--color-text-soft);
-    margin-bottom: 4px;
-}
-
-.placar-item strong {
-    font-size: 1.2rem;
-    color: var(--color-wine-2);
-    font-family: var(--font-title);
-}
+.placar-item { display: flex; flex-direction: column; align-items: center; }
+.placar-item span { font-size: 0.6rem; text-transform: uppercase; color: var(--color-text-soft); margin-bottom: 2px; }
+.placar-item strong { font-size: 1.1rem; color: var(--color-wine-2); font-family: var(--font-title); }
 
 .carreira-container {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 8px;
-    border-radius: var(--radius);
-    border: 1px dashed rgba(255,255,255,0.08);
-    margin-bottom: 12px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.3); padding: 12px; border-radius: var(--radius); border: 1px dashed rgba(255,255,255,0.1);
+    margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
 }
 
 .vidas-container {
@@ -313,7 +289,6 @@ body {
 .grupo-opcao {
     display: flex;
     flex-direction: column;
-    gap: 6px;
     margin-bottom: 15px;
 }
 
@@ -325,47 +300,17 @@ body {
     font-weight: 700;
 }
 
-.grid-config {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 10px;
-}
-
 .secao-inicio-partida {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 20px;
-    border-radius: var(--radius);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    margin-bottom: 20px;
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.02); padding: 15px; border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 15px;
 }
 
 .input-moderno {
-    height: var(--control-h) !important;
-    background: var(--color-input-bg) !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
-    font-family: var(--font-title) !important;
-    font-size: 1rem !important;
-    color: #fff !important;
-    width: 100%;
-    padding: 0 15px !important;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: var(--radius) !important;
-    outline: none !important;
+    height: var(--control-h); background: var(--color-input-bg); border: 1px solid rgba(255,255,255,0.1);
+    font-family: var(--font-title); font-size: 0.9rem; color: #fff; width: 100%; padding: 0 15px;
+    border-radius: var(--radius); outline: none; transition: 0.3s;
 }
-
-.input-moderno::placeholder {
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    opacity: 0.4;
-}
-
-.input-moderno:focus {
-    border-color: #d3394c !important;
-    box-shadow: 0 0 15px rgba(211, 57, 76, 0.2) !important;
-    background: rgba(0,0,0,0.4) !important;
-}
+.input-moderno:focus { border-color: var(--color-wine-2); box-shadow: 0 0 10px rgba(211, 57, 76, 0.2); }
 
 .select-moderno {
     cursor: pointer;
@@ -374,29 +319,13 @@ body {
 }
 
 .btn-principal-game {
-    width: 100%;
-    height: 55px !important;
-    margin-top: 10px;
-    
-    background: linear-gradient(135deg, #af2d46, #d3394c) !important;
-    color: #fff !important;
-    
-    font-family: var(--font-title);
-    font-size: 1.1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    
-    border: none !important;
-    border-radius: var(--radius) !important;
-    cursor: pointer;
-    
+    width: 100%; height: 50px; margin-top: 10px;
+    background: linear-gradient(135deg, #af2d46, #d3394c);
+    color: #fff; font-family: var(--font-title); font-size: 1rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px; border: none; border-radius: var(--radius);
+    cursor: pointer; transition: 0.3s;
     box-shadow: 0 4px 15px rgba(211, 57, 76, 0.3);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
 }
 
 .btn-principal-game:hover {
@@ -405,54 +334,8 @@ body {
     filter: brightness(1.1);
 }
 
-.btn-principal-game:active {
-    transform: translateY(1px);
-}
-
-.formulario-compacto {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-
-.error-message {
-    color: #ff4757; font-size: 0.8rem; margin: 10px 0; text-align: center; font-weight: bold;
-}
-
-.formulario input {
-    height: var(--control-h);
-    padding: 0 12px;
-    outline: none;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius);
-    background: var(--color-input-bg);
-    color: var(--color-text);
-    font-size: 0.9rem;
-    transition: 0.18s ease;
-}
-.formulario input:focus {
-    border-color: #d3394c;
-    box-shadow: 0 0 12px rgba(211, 57, 76, 0.18);
-}
-
-.formulario button {
-    height: var(--control-h);
-    cursor: pointer;
-    border: none;
-    border-radius: var(--radius);
-    background: var(--color-success);
-    color: var(--color-button-text);
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: 0.15s ease;
-}
-.formulario button:hover {
-    transform: translateY(-2px);
-    background: var(--color-success-hover);
-    box-shadow: var(--shadow-soft);
-}
+.formulario-compacto { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.error-message { color: #ff4757; font-size: 0.8rem; margin: 5px 0; text-align: center; font-weight: bold; }
 
 .btn-sair {
     width: 100%;
@@ -472,26 +355,19 @@ body {
     border-color: var(--color-wine-2);
 }
 
-.info-partida {
-
-
-
+/* ==========================================================================
+   CONSOLE E FEEDBACK
+   ========================================================================== */
 #console {
     width: 100%;
     min-height: 50px;
-    padding: 12px;
+    padding: 10px 15px;
     display: flex;
     align-items: center;
-    background:
-        var(--color-console-bg);
-    border:
-        1px solid var(--border-color-focus);
-    border-radius:
-        var(--radius);
-    color:
-        var(--color-text-soft);
-    font-size: 0.95rem;
-    font-weight: bold;
+    background: var(--color-console-bg);
+    border: 1px solid var(--color-wine-1);
+    border-radius: var(--radius);
+    color: #fff; font-size: 0.85rem; font-weight: 600;
     box-shadow:
         var(--shadow-soft);
 }
@@ -585,9 +461,9 @@ body {
     border-radius: var(--radius-lg);
     border: 2px solid var(--color-wine-2);
     text-align: center;
-    max-width: 400px;
+    max-width: 380px;
     width: 90%;
-    box-shadow: 0 0 30px rgba(211, 57, 76, 0.4);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
     animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .modal-content.derrota {
@@ -598,6 +474,8 @@ body {
     from { transform: translateY(50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 #modal-icon {
     font-size: 4rem;
     margin-bottom: 20px;
@@ -688,7 +566,9 @@ body {
     background: rgba(255, 71, 87, 0.1);
 }
 
-/* Estilos para Visualizar Senha */
+/* ==========================================================================
+   UTILITÁRIOS E SENHA
+   ========================================================================== */
 .password-wrapper {
     position: relative;
     width: 100%;
@@ -704,6 +584,8 @@ body {
 .btn-toggle-eye {
     position: absolute;
     right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     background: transparent;
     border: none;
     color: var(--color-text-soft);

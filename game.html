@@ -6,10 +6,10 @@
     <title>Arena - Jogo da Velha</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body style="opacity: 0; transition: opacity 0.3s ease;"> <!-- Proteção visual inicial -->
+<body style="opacity: 0; transition: opacity 0.3s ease; overflow-y: auto;">
     <div id="app" class="auth-required">
         <section id="tela-jogo" class="screen">
-            <main class="container">
+            <div class="container">
                 <section class="configuracoes">
                     <div class="formulario-compacto">
                          <div class="placar">
@@ -70,7 +70,7 @@
                     <div class="casa" data-index="7"></div>
                     <div class="casa" data-index="8"></div>
                 </section>
-            </main>
+            </div>
         </section>
     </div>
 
