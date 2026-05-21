@@ -5,7 +5,7 @@ Um Jogo da Velha moderno e desafiador, com interface futurista e um modo campanh
 ## 🚀 Visualizar Projeto
 
 O projeto está disponível online para ser testado agora mesmo:
-👉 **[Acesse aqui o Jogo da Velha](COLE_SEU_LINK_AQUI)**
+👉 **[Acesse aqui o Jogo da Velha](https://jogodavelhaonline.vercel.app/)**
 
 ## 📸 Preview
 
