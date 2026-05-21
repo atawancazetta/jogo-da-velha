@@ -81,7 +81,7 @@
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
+    min-height: 100vh;
     min-height: 100dvh; /* altura dinâmica para navegadores mobile */
     padding: 20px 10px;
     display: flex;
@@ -347,6 +347,7 @@ body {
     font-family: var(--font-title) !important;
     font-size: 1rem !important;
     color: #fff !important;
+    width: 100%;
     padding: 0 15px !important;
     text-transform: uppercase;
     letter-spacing: 1px;
