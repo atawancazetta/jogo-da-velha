@@ -37,10 +37,10 @@ As seguintes tecnologias foram utilizadas na construção deste projeto:
 
 *   🌐 **[HTML5](https://developer.mozilla.org/pt-BR/docs/Web/HTML)**: Estruturação semântica do conteúdo.
 *   🎨 **[CSS3](https://developer.mozilla.org/pt-BR/docs/Web/CSS)**: Estilização e responsividade da interface.
-*   🚀 **[JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)**: Lógica de programação e interatividade do jogo.
-O jogo é um site estático: não usa backend, banco de dados, contas de usuário nem dependências externas.
-
-> **Sobre o progresso salvo:** a fase atual, as vidas restantes e o total de vitórias ficam salvos apenas no navegador e no dispositivo em que você joga. Limpar os dados do site, usar uma janela anônima ou trocar de navegador/dispositivo começa uma nova campanha. O placar da sessão (vitórias, derrotas e empates) zera ao recarregar a página.
+*   🚀 **[JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)**: Lógica do jogo e da IA (Minimax), com módulos ES e Programação Orientada a Objetos.
+*   💾 **[localStorage](https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage)**: Salva o progresso da campanha no próprio navegador.
+*   🔤 **[Google Fonts](https://fonts.google.com/)**: Fontes Inter e Orbitron.
+*   ▲ **[Vercel](https://vercel.com/)**: Hospedagem do site estático.
 
 ## ▶️ Como executar
 
