@@ -1,10 +1,4 @@
-// Lógica central da campanha contra IA
-import { auth, db } from './firebase.js';
-import { 
-    signOut, 
-    onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+// Lógica central da campanha contra IA (executa 100% no navegador)
 
 const boardCells = document.querySelectorAll('.casa');
 const statusDisplay = document.getElementById('console');
@@ -13,7 +7,6 @@ const playerNameInput = document.getElementById('player1');
 const telaJogo = document.getElementById('tela-jogo');
 
 const btnStartGame = document.getElementById('btnIrParaJogo');
-const btnLogout = document.getElementById('btnLogout');
 const selectSimbolo = document.getElementById('select-simbolo');
 
 const modalFase = document.getElementById('modal-fase');
@@ -23,20 +16,7 @@ const modalTitle = document.getElementById('modal-titulo');
 const modalMessage = document.getElementById('modal-mensagem');
 const modalAttempts = document.getElementById('modal-tentativas');
 
-let gameInstance = null;
-
-// --- AUTH GUARD (SEGURANÇA DE ROTA) ---
-onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-        window.location.replace('index.html'); // Replace impede o usuário de voltar com o botão "Voltar"
-    } else {
-        console.log("Acesso autorizado para:", user.email);
-        if (!gameInstance) gameInstance = new JogoDaVelha();
-        
-        await gameInstance.carregarProgressoCloud(user);
-        document.body.style.opacity = '1'; // Revela a página após carregar dados
-    }
-});
+const CHAVE_PROGRESSO = 'jogodavelha_progresso';
 
 class JogoDaVelha {
     constructor() {
@@ -61,93 +41,55 @@ class JogoDaVelha {
         this.vitoriasIA = 0;
         this.tentativas = 3;
 
-        this.iniciarEventos(); // carregarProgresso agora é disparado pelo Auth
+        this.iniciarEventos();
+        this.carregarProgresso();
+        this.atualizarInterfaceCarreira();
     }
 
     /* Listeners de clique e botões do sistema */
     iniciarEventos() {
         boardCells.forEach(casa => {
             casa.addEventListener('click', (evento) => {
+                if (this.turno !== this.simboloHumano) return // Impede jogar na vez da IA
                 this.marcarCasa(evento.target)
             })
         })
 
         btnStartGame.addEventListener('click', () => this.iniciarPartida());
-        btnLogout.addEventListener('click', () => this.fazerLogout());
         btnAcaoModal.addEventListener('click', () => this.processarAcaoModal());
         btnResetarCarreira.addEventListener('click', () => this.reiniciarCarreiraDoZero());
     }
 
-    async fazerLogout() {
-        try {
-            localStorage.removeItem('jogodavelha_progresso'); // Limpeza opcional por segurança
-            await signOut(auth);
-        } catch (error) {
-            console.error("Erro ao deslogar:", error);
-        }
-    }
-
-    /* Recupera os dados salvos do Firestore (Sincronização Cloud) */
-    async carregarProgressoCloud(user) {
-        try {
-            const docRef = doc(db, "usuarios", user.uid);
-            const docSnap = await getDoc(docRef);
-            
-            if (docSnap.exists()) {
-                const dados = docSnap.data();
-                this.nivelCarreira = dados.nivel || 0;
-                this.vitoriasIA = dados.vitorias || 0;
-                this.tentativas = dados.tentativas !== undefined ? dados.tentativas : 3;
-            } else {
-                // AUTO-CRIAÇÃO: Caso o documento não exista, cria com valores padrão
-                console.log("Criando documento de usuário faltante...");
-                const novoDoc = {
-                    email: user.email,
-                    nivel: 0,
-                    vitorias: 0,
-                    tentativas: 3,
-                    createdAt: serverTimestamp()
-                };
-                await setDoc(docRef, novoDoc);
-                this.nivelCarreira = 0;
-                this.vitoriasIA = 0;
-                this.tentativas = 3;
-                this.pontos = 0;
-            }
-            this.atualizarInterfaceCarreira();
-        } catch (error) {
-            console.error("Erro ao carregar do Firestore:", error);
-        }
-    }
-
-    /* Recupera os dados salvos do jogador */
+    /* Recupera o progresso salvo neste navegador, descartando dados inválidos */
     carregarProgresso() {
-        const salvo = localStorage.getItem('jogodavelha_progresso');
-        if (salvo) {
-            const dados = JSON.parse(salvo);
-            this.nivelCarreira = dados.nivel || 0;
-            this.vitoriasIA = dados.vitorias || 0;
-            this.tentativas = dados.tentativas !== undefined ? dados.tentativas : 3;
+        let dados = null;
+        try {
+            dados = JSON.parse(localStorage.getItem(CHAVE_PROGRESSO));
+        } catch (error) {
+            // Armazenamento indisponível ou JSON corrompido: mantém os valores padrão
         }
+        if (!dados || typeof dados !== 'object') return;
+
+        const inteiroEntre = (valor, min, max) => Number.isInteger(valor) && valor >= min && valor <= max;
+
+        // Tentativas zeradas significam game over, que reinicia a campanha
+        if (!inteiroEntre(dados.tentativas, 1, 3) || !inteiroEntre(dados.nivel, 0, 2)) return;
+
+        this.nivelCarreira = dados.nivel;
+        this.tentativas = dados.tentativas;
+        this.vitoriasIA = inteiroEntre(dados.vitorias, 0, Number.MAX_SAFE_INTEGER) ? dados.vitorias : 0;
     }
 
-    /* Grava o progresso atual no localStorage e Firestore */
-    async salvarProgresso() {
-        if (auth.currentUser) {
-            try {
-                const docRef = doc(db, "usuarios", auth.currentUser.uid);
-                const dados = {
-                    nivel: this.nivelCarreira,
-                    vitorias: this.vitoriasIA,
-                    tentativas: this.tentativas,
-                    pontos: (this.vitoriasIA * 10)
-                };
-                
-                localStorage.setItem('jogodavelha_progresso', JSON.stringify(dados));
-                await updateDoc(docRef, dados);
-            } catch (error) {
-                console.error("Erro ao salvar progresso no Firestore:", error);
-            }
+    /* Grava o progresso atual no localStorage deste navegador */
+    salvarProgresso() {
+        try {
+            localStorage.setItem(CHAVE_PROGRESSO, JSON.stringify({
+                nivel: this.nivelCarreira,
+                vitorias: this.vitoriasIA,
+                tentativas: this.tentativas
+            }));
+        } catch (error) {
+            // Armazenamento indisponível (modo privado, cota cheia): o jogo segue sem salvar
         }
     }
 
@@ -163,8 +105,9 @@ class JogoDaVelha {
         this.jogador2 = `IA (${this.dificuldade.toUpperCase()})`;
 
         this.atualizarLabelsPlacar();
+        clearTimeout(this.timeoutIA); // Descarta jogada pendente da partida anterior
         this.limparTabuleiro();
-        
+
         this.turno = 'X';
         this.jogoAtivo = true;
 
@@ -300,7 +243,7 @@ class JogoDaVelha {
             index = this.minimax(this.getEstadoTabuleiro(), this.turno).index;
         }
 
-        setTimeout(() => this.marcarCasa(boardCells[index]), 500);
+        this.timeoutIA = setTimeout(() => this.marcarCasa(boardCells[index]), 500);
     }
 
     /* Procura lances imediatos de vitória ou bloqueio */
@@ -469,5 +412,5 @@ class JogoDaVelha {
     }
 }
 
-// Removido o instanciamento via DOMContentLoaded para evitar conflito com onAuthStateChanged
-// A instância agora é criada dentro do listener de autenticação
+new JogoDaVelha();
+document.body.style.opacity = '1'; // Revela a página após carregar o progresso

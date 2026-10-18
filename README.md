@@ -19,8 +19,8 @@ O projeto está disponível online para ser testado agora mesmo:
 Este projeto foi desenvolvido com o propósito de **exercitar a lógica de programação avançada em JavaScript**. Ao contrário de um jogo tradicional, este projeto explora:
 
 - **Algoritmos de IA:** Implementação de níveis de dificuldade, incluindo o algoritmo **Minimax** para tornar a IA imbatível no modo difícil.
-- **Persistência de Dados:** Uso de `localStorage` para salvar o progresso da campanha e recordes do jogador.
-- **Manipulação de DOM:** Gestão dinâmica de estados da interface (telas de login, jogo e modais).
+- **Persistência de Dados:** Uso de `localStorage` para salvar o progresso da campanha (fase, vidas e vitórias) no próprio navegador, sem banco de dados nem backend.
+- **Manipulação de DOM:** Gestão dinâmica de estados da interface (jogo e modais).
 - **Clean Code:** Estruturação da lógica utilizando Programação Orientada a Objetos (Classes).
 
 ## ✨ Funcionalidades
@@ -38,10 +38,9 @@ As seguintes tecnologias foram utilizadas na construção deste projeto:
 *   🌐 **[HTML5](https://developer.mozilla.org/pt-BR/docs/Web/HTML)**: Estruturação semântica do conteúdo.
 *   🎨 **[CSS3](https://developer.mozilla.org/pt-BR/docs/Web/CSS)**: Estilização e responsividade da interface.
 *   🚀 **[JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)**: Lógica de programação e interatividade do jogo.
-*   🟢 **[Node.js](https://nodejs.org/)**: Ambiente de execução JavaScript no servidor.
-*   ⚡ **[Express](https://expressjs.com/)**: Framework web para o desenvolvimento do backend.
-*   🔥 **[Firebase](https://firebase.google.com/)**: Utilizado para autenticação de usuários (cadastro e login) e como banco de dados NoSQL (Firestore) para persistência do progresso da campanha, configurado com chaves API para segurança.
-*   🗄️ **[SQLite](https://www.sqlite.org/)**: Banco de dados relacional leve para armazenamento local.
+O jogo é um site estático: não usa backend, banco de dados, contas de usuário nem dependências externas.
+
+> **Sobre o progresso salvo:** a fase atual, as vidas restantes e o total de vitórias ficam salvos apenas no navegador e no dispositivo em que você joga. Limpar os dados do site, usar uma janela anônima ou trocar de navegador/dispositivo começa uma nova campanha. O placar da sessão (vitórias, derrotas e empates) zera ao recarregar a página.
 
 ## ▶️ Como executar
 
@@ -57,18 +56,13 @@ Se desejar rodar o projeto localmente para estudo ou modificações, siga os pas
    cd jogo-da-velha
    ```
 
-3. **Instale as dependências:**
+3. **Sirva os arquivos com qualquer servidor estático** (necessário porque o script usa módulos ES):
    ```bash
-   npm install
+   npx serve .
    ```
+   Ou use a extensão *Live Server* do VS Code.
 
-4. **Inicie o servidor:**
-   ```bash
-   npm start
-   ```
-
-5. **Acesse no navegador:**
-   Abra `http://localhost:3000` (ou a porta configurada).
+4. **Acesse no navegador** o endereço exibido pelo servidor (ex.: `http://localhost:3000`).
 
 ---
 
